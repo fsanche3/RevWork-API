@@ -1,0 +1,221 @@
+openapi: 3.0.2
+info:
+    title: revWork
+    version: 0.0.2
+    description: This is the api specification for the revWork API.
+paths:
+    /login:
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/usernameandpassword'
+                required: true
+            responses:
+                '200':
+                    description: The login was a sucess.
+    /job:
+        get:
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/availablejob'
+                    description: The jobs were retrieved successfully.
+            description: Get all the jobs that an employer has available.
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/availablejob'
+                required: true
+            responses:
+                '200':
+                    description: The job was posted successfully.
+    /apply:
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/application'
+                required: true
+            responses:
+                '200':
+                    description: Application has been updated.
+            summary: Update an application.
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/application'
+                required: true
+            responses:
+                '201':
+                    description: Application has been sent!
+            summary: Apply for an available job
+    /register/employer:
+        post:
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/employerregister'
+                required: false
+            responses:
+                '200':
+                    description: Employer has been registered.
+    /register/freelancer:
+        post:
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/freelancerregister'
+                required: false
+            responses:
+                '200':
+                    description: Freelancer has been registered.
+    /select-application:
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: integer
+                required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/application'
+                    description: Application found.
+            summary: Get a particular application
+    /job/id: {}
+components:
+    schemas:
+        usernameandpassword:
+            title: Root Type for login
+            description: The onbject a user passes to login.
+            required:
+                - password
+                - username
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            example:
+                username: string
+                password: string
+        availablejob:
+            title: Root Type for availablejob
+            description: A job the employer is trying to find a freelancer to complete.
+            type: object
+            properties:
+                title:
+                    type: string
+                skills:
+                    type: string
+                jobdescription:
+                    type: string
+                payrate:
+                    type: string
+            example:
+                title: string
+                skills: string
+                jobdescription: string
+                payrate: double
+        portfolio:
+            title: Root Type for portfolio
+            description: ''
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                skills:
+                    type: string
+            example:
+                id: integer
+                name: string
+                email: string
+                skills: string
+        application:
+            title: Root Type for application
+            description: ''
+            type: object
+            properties:
+                jobid:
+                    type: string
+                portfolioid:
+                    type: string
+                coverletter:
+                    type: string
+            example:
+                jobid: integer
+                portfolioid: integer
+                coverletter: string
+        employerregister:
+            title: Root Type for employerregister
+            description: ''
+            type: object
+            allOf:
+                -
+                    required:
+                        - companyname
+                        - email
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        companyname:
+                            type: string
+                -
+                    $ref: '#/components/schemas/usernameandpassword'
+            example:
+                email: string
+                companyname: string
+        freelancerregister:
+            title: Root Type for freelancerregister
+            description: ''
+            type: object
+            allOf:
+                -
+                    required:
+                        - email
+                        - name
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        name:
+                            type: string
+                        skill:
+                            type: string
+                -
+                    $ref: '#/components/schemas/usernameandpassword'
+            example:
+                email: string
+                name: string
+                skill: string
+    securitySchemes:
+        revwork_security_schema:
+            scheme: bearer
+            type: http
+security:
+    -
+        revwork_security_schema: []

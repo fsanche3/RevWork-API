@@ -1,13 +1,13 @@
-package com.revature.revwork;
+package p2.revature.revwork;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RevworkApplication {
+public class RevWorkBootApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RevworkApplication.class, args);
+		SpringApplication.run(RevWorkBootApplication.class, args);
 	}
 
 }

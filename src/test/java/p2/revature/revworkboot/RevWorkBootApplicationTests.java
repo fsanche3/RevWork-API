@@ -1,13 +1,13 @@
-package com.revature.revwork;
+package p2.revature.revworkboot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RevworkApplicationTests {
+class RevWorkBootApplicationTests {
 
-	@Test
+	/*@Test
 	void contextLoads() {
 	}
-
+*/
 }

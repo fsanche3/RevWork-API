@@ -1,3 +1,8 @@
+# Read Me First
+The following was discovered as part of building this project:
+
+* The original package name 'p2.revature.rev-work-boot' is invalid and this project uses 'p2.revature.revworkboot' instead.
+
 # Getting Started
 
 ### Reference Documentation
