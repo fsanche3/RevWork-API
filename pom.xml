@@ -32,22 +32,13 @@
 			<version>1.6.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.10.3</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.30</version>
-		</dependency>
+
 
 
 		<dependency>
@@ -101,7 +92,7 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/application.yaml</inputSpec>
 							<language>spring</language>
-							<output>${project.build.directory}/generated-sources/</output>
+							<output>${project.basedir}</output>
 							<generateSupportingFiles>false</generateSupportingFiles>
 							<apiPackage>p2.revature.revworkboot.api</apiPackage>
 							<modelPackage>p2.revature.revworkboot.models</modelPackage>
