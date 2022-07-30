@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="skill")
 public class Skill {
 
 	@Id // specifies that this field is the primary key

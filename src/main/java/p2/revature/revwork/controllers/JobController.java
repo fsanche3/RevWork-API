@@ -1,5 +1,6 @@
 package p2.revature.revwork.controllers;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,44 +13,67 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import p2.revature.revwork.models.data.OpenJobs;
+import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revworkboot.api.JobApi;
 import p2.revature.revworkboot.models.Availablejob;
 
 @RestController
-@RequestMapping(path="/job")
-public class JobController implements JobApi{
+@RequestMapping(path = "/job")
+public class JobController implements JobApi {
 
-	@Override
-	@GetMapping()
-	public ResponseEntity<List<Availablejob>> jobGet() {
-		List<Availablejob> books = new ArrayList<>();
-		
-		Availablejob book1 = new Availablejob();
-		book1.setTitle("Job Title1");
-		book1.setSkills("skill 1, skill 2");
-		book1.setJobdescription("MT");
-		book1.setPayrate("25.12");
-		
-		books.add(book1);
-		
-		Availablejob book3 = new Availablejob();
-		book3.setTitle("Job Title2");
-		book3.setSkills("skill3");
-		book3.setJobdescription("RE");
-		book3.setPayrate("13.18");
-		
-		books.add(book3);
-		
-		return new ResponseEntity<>(books,HttpStatus.OK);
+	private OpenJobsService oj;
+
+	public JobController(OpenJobsService oj) {
+		this.oj = oj;
 	}
+
+	
+	@Override
+	@GetMapping
+	public ResponseEntity<List<Availablejob>> jobGet() {
+		List<OpenJobs> open = oj.getAllJobs();
+		List<Availablejob> aj = new ArrayList<>();
+		for (OpenJobs o : open) {
+			Availablejob a = new Availablejob();
+			a.setId(o.getId());
+			a.setEmployerid(o.getEmployer());
+			a.setName(o.getName());
+			a.setDescription(o.getDescription());
+			a.setSkills(o.getSkills());
+			a.setPayrate(o.getPayrate());
+			aj.add(a);
+		}
+		return ResponseEntity.ok(aj);
+	}
+	
+	/*
+	@GetMapping
+	public ResponseEntity<List<Availablejob>> jobGetById(@Valid Availablejob body) {
+		List<OpenJobs> open = oj.findById(body);
+		List<Availablejob> aj = new ArrayList<>();
+		for (OpenJobs o : open) {
+			Availablejob a = new Availablejob();
+			a.setName(o.getName());
+			a.setDescription(o.getDescription());
+			a.setSkills(o.getSkills());
+			a.setPayrate(o.getPayrate());
+			aj.add(a);
+		}
+		return ResponseEntity.ok(aj);
+	}
+	*/
 
 	@Override
 	@PostMapping
 	public ResponseEntity<Void> jobPost(@Valid Availablejob body) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("Post made on job enppint");
-		return null;
+		Availablejob success = oj.addJob(body);
+
+		if (success != null) {
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+		}
 	}
-	
 }
+

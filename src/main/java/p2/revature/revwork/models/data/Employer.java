@@ -7,21 +7,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="employer")
 public class Employer {
 
 	@Id // specifies that this field is the primary key
-	@GeneratedValue(strategy = GenerationType.AUTO) // specifies that the db generates this value
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
 	private int id;
 	private String name;
 	private String email;
+	private String username;
+	private String password;
 
-	public Employer(int id, String name, String email) {
+	public Employer() {}
+	
+
+	public Employer(int id, String name, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.username = username;
+		this.password = password;
 	}
+
 
 	public int getId() {
 		return id;
@@ -47,9 +55,32 @@ public class Employer {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "Employer [id=" + id + ", name=" + name + ", email=" + email + "]";
+
+	public String getUsername() {
+		return username;
 	}
 
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Employer [id=" + id + ", name=" + name + ", email=" + email + ", username=" + username + ", password="
+				+ password + "]";
+	}
+
+	
 }

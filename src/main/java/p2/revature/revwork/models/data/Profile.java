@@ -6,17 +6,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="profiles")
 public class Profile {
 
 	@Id // specifies that this field is the primary key
 	@GeneratedValue(strategy = GenerationType.AUTO) // specifies that the db generates this value
 	private int id;
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "freelancerid")
 	private Freelancer freelancer;
 
 	public Profile(int id, Freelancer freelancer) {
