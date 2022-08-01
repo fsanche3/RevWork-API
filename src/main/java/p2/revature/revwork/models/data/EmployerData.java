@@ -6,9 +6,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import p2.revature.revworkboot.models.Employer;
+
 @Entity
 @Table(name="employer")
-public class Employer {
+public class EmployerData {
+	
+	public static Employer toEmployer(EmployerData data) {
+		Employer emp = new Employer();
+		
+		String idSring = String.valueOf(data.getId());
+		
+		emp.setEmail(data.getEmail());
+		emp.setId(idSring);
+		emp.setName(data.getName());
+		emp.setPassword(data.getPassword());
+		emp.setUsername(data.getUsername());
+		
+		return emp;
+	}
+	
+	public static EmployerData fromEmployer(Employer emp) {
+		EmployerData data = new EmployerData();
+		
+		int idInt = Integer.parseInt(emp.getId());
+		
+		data.setEmail(emp.getEmail());
+		data.setId(idInt);
+		data.setName(emp.getName());
+		data.setPassword(emp.getPassword());
+		data.setUsername(emp.getUsername());
+		
+		return data;
+	}
+	
 
 	@Id // specifies that this field is the primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
@@ -18,11 +49,11 @@ public class Employer {
 	private String username;
 	private String password;
 
-	public Employer() {
+	public EmployerData() {
 	}
 	
 
-	public Employer(int id, String name, String email, String username, String password) {
+	public EmployerData(int id, String name, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.name = name;

@@ -6,10 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import p2.revature.revwork.models.data.Employer;
+
+import p2.revature.revworkboot.models.Employer;
 
 @Entity
 @Table(name="openjobs")
@@ -20,7 +19,7 @@ public class OpenJobs {
 	private int id;
 	@ManyToOne
 	@JoinColumn(name = "employerid")
-	private Employer employer;
+	private EmployerData employer;
 	private String name;
 	private String description;
 	private String skills;
@@ -29,7 +28,7 @@ public class OpenJobs {
 
 	public OpenJobs() {}
 	
-	public OpenJobs(Employer employer, String name, String description, String skills, String payrate, boolean istaken) {
+	public OpenJobs(EmployerData employer, String name, String description, String skills, String payrate, boolean istaken) {
 		super();
 		this.employer = employer;
 		this.name = name;
@@ -39,7 +38,7 @@ public class OpenJobs {
 		this.istaken = istaken;
 	}
 
-	public OpenJobs(int id, Employer employer, String name, String description, String skills, String payrate, boolean istaken) {
+	public OpenJobs(int id, EmployerData employer, String name, String description, String skills, String payrate, boolean istaken) {
 		super();
 		this.id = id;
 		this.employer = employer;
@@ -67,11 +66,11 @@ public class OpenJobs {
 		this.id = id;
 	}
 
-	public Employer getEmployer() {
+	public EmployerData getEmployer() {
 		return employer;
 	}
 
-	public void setEmployer(Employer employer) {
+	public void setEmployer(EmployerData employer) {
 		this.employer = employer;
 	}
 

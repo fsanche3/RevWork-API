@@ -2,7 +2,6 @@ package p2.revature.revwork.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import p2.revature.revwork.models.data.Application;
+import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.OpenJobs;
-import p2.revature.revwork.models.data.Profile;
 import p2.revature.revwork.services.ApplicationService;
 import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.OpenJobsService;
@@ -27,7 +26,6 @@ import p2.revature.revworkboot.api.RegisterApi;
 import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employerregister;
 import p2.revature.revworkboot.models.Freelancerregister;
-import p2.revature.revworkboot.models.Portfolio;
 
 @RestController
 @RequestMapping(path = "/employer")
@@ -54,7 +52,7 @@ public class EmployerController implements RegisterApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid(EmployerData.toEmployer(  o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -71,7 +69,7 @@ public class EmployerController implements RegisterApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid( EmployerData.toEmployer( o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -115,7 +113,7 @@ public class EmployerController implements RegisterApi {
 
 	@PostMapping(path = "/add_job")
 	public ResponseEntity<Availablejob> addJob(@RequestBody Availablejob aj) {
-		OpenJobs open = new OpenJobs(aj.getEmployerid(), aj.getName(), aj.getDescription(), aj.getSkills(),
+		OpenJobs open = new OpenJobs(EmployerData.fromEmployer(aj.getEmployerid()), aj.getName(), aj.getDescription(), aj.getSkills(),
 				aj.getPayrate(), aj.isIstaken());
 		ojs.addJob(open);
 		return ResponseEntity.status(HttpStatus.CREATED).body(aj);
@@ -123,7 +121,7 @@ public class EmployerController implements RegisterApi {
 
 	@DeleteMapping(path = "/delete_job")
 	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob) {
-		OpenJobs open = new OpenJobs(openJob.getId(), openJob.getEmployerid(), openJob.getName(),
+		OpenJobs open = new OpenJobs(openJob.getId(), EmployerData.fromEmployer(openJob.getEmployerid()), openJob.getName(),
 				openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(),openJob.isIstaken());
 		ojs.deleteJob(open);
 		return ResponseEntity.status(HttpStatus.GONE).body(openJob);
@@ -131,7 +129,7 @@ public class EmployerController implements RegisterApi {
 
 	@PutMapping(path = "/edit_job")
 	public ResponseEntity<Availablejob> editJob(@RequestBody Availablejob aj) {
-		OpenJobs open = new OpenJobs(aj.getId(), aj.getEmployerid(), aj.getName(), aj.getDescription(), aj.getSkills(),
+		OpenJobs open = new OpenJobs(aj.getId(), EmployerData.fromEmployer(aj.getEmployerid()), aj.getName(), aj.getDescription(), aj.getSkills(),
 				aj.getPayrate(), aj.isIstaken());
 		if (ojs.editJob(open) != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(aj);

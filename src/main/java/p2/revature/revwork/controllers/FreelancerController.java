@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import p2.revature.revwork.models.data.Application;
+import p2.revature.revwork.models.data.EmployerData;
+import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revwork.models.data.Profile;
 import p2.revature.revwork.services.ApplicationService;
@@ -56,7 +58,7 @@ public class FreelancerController implements RegisterApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -74,7 +76,7 @@ public class FreelancerController implements RegisterApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -105,14 +107,14 @@ public class FreelancerController implements RegisterApi {
 
 	@PostMapping(path = "/create_profile")
 	public ResponseEntity<Portfolio> addJob(@RequestBody Portfolio aj) {
-		Profile open = new Profile(aj.getFreelancerid(), aj.getCollege(), aj.getName(), aj.getEmail());
+		Profile open = new Profile(FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(), aj.getName(), aj.getEmail());
 		p.addProfile(open);
 		return ResponseEntity.status(HttpStatus.CREATED).body(aj);
 	}
 
 	@DeleteMapping(path = "/delete_profile")
 	public ResponseEntity<Portfolio> deleteProfile(@RequestBody Portfolio aj) {
-		Profile open = new Profile(aj.getId(),aj.getFreelancerid(), aj.getCollege(), aj.getName(), aj.getEmail());
+		Profile open = new Profile(aj.getId(), FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(), aj.getName(), aj.getEmail());
 		if(p.deleteProfile(open) != null) {
 		return ResponseEntity.status(HttpStatus.GONE).body(aj);
 		} else {
@@ -123,7 +125,7 @@ public class FreelancerController implements RegisterApi {
 	
 	@PutMapping(path = "/edit_profile")
 	public ResponseEntity<Portfolio> editProfile(@RequestBody Portfolio aj){
-		Profile open = new Profile(aj.getId(),aj.getFreelancerid(), aj.getCollege(), aj.getName(), aj.getEmail());
+		Profile open = new Profile(aj.getId(),FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(), aj.getName(), aj.getEmail());
 		if(p.editProfile(open) != null) {
 		return ResponseEntity.status(HttpStatus.OK).body(aj);
 		} else {

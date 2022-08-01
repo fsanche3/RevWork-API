@@ -10,15 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.OpenJobs;
-import p2.revature.revwork.models.data.Employer;
-
 import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revworkboot.api.JobApi;
@@ -45,7 +43,7 @@ public class JobController implements JobApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -63,7 +61,7 @@ public class JobController implements JobApi {
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
 			a.setId(o.getId());
-			a.setEmployerid(o.getEmployer());
+			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -75,7 +73,7 @@ public class JobController implements JobApi {
 
 	@PostMapping
 	public ResponseEntity<Availablejob> postJob(@RequestBody Availablejob openJob) {
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
+		OpenJobs open = new OpenJobs(EmployerData.fromEmployer(openJob.getEmployerid()),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
 		oj.addJob(open);
 		return ResponseEntity.status(HttpStatus.CREATED).body(openJob);
 	}
@@ -88,7 +86,7 @@ public class JobController implements JobApi {
 	
 	@DeleteMapping
 	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob){
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
+		OpenJobs open = new OpenJobs(EmployerData.fromEmployer(openJob.getEmployerid()),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
 		oj.deleteJob(open);
 		return ResponseEntity.status(HttpStatus.GONE).body(openJob);		
 	}

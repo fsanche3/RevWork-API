@@ -6,9 +6,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import p2.revature.revworkboot.models.Freelancer;
+
 @Entity
 @Table(name="freelancer")
-public class Freelancer {
+public class FreelancerData {
+	
+	public static Freelancer toFreelancer(FreelancerData data) {
+		Freelancer free = new Freelancer();
+		
+		free.setAbout(data.getAbout());
+		free.setEmail(data.getEmail());
+		free.setExperiencelevel(data.getExperiencelevel());
+		free.setId(data.getId());
+		free.setName(data.getName());
+		free.setPassword(data.getPassword());
+		free.setUsername(data.getUsername());
+		
+		return free;
+	}
+	
+	public static FreelancerData fromFreelancer(Freelancer free) {
+		FreelancerData data = new FreelancerData();
+		
+		data.setAbout(free.getAbout());
+		data.setEmail(free.getEmail());
+		data.setExperiencelevel(free.getExperiencelevel());
+		data.setId(free.getId());
+		data.setName(free.getName());
+		data.setPassword(free.getPassword());
+		data.setUsername(free.getUsername());
+		
+		return data;
+	}
+	
 	
 	@Id // specifies that this field is the primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
@@ -20,8 +51,8 @@ public class Freelancer {
 	private String username;
 	private String password;
 	
-	public Freelancer() {}
-	public Freelancer(int id, String name, String about, String experiencelevel, String email, String username, String password) {
+	public FreelancerData() {}
+	public FreelancerData(int id, String name, String about, String experiencelevel, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.name = name;

@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import p2.revature.revwork.data.FreelancerRepository;
-import p2.revature.revwork.models.data.Employer;
-import p2.revature.revwork.models.data.Freelancer;
+import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Usernameandpassword;
 
@@ -20,7 +19,7 @@ public class FreelancerService {
 		this.fr = fr;
 	}
 	
-	public List<Freelancer> getAllFreelancers(){
+	public List<FreelancerData> getAllFreelancers(){
 		return fr.findAll();
 	}
 	
@@ -29,9 +28,9 @@ public class FreelancerService {
 	}
 	
 	public boolean verifyRigistration(Freelancerregister register) {
-		List<Freelancer> free = fr.findByName(register.getUsername());
+		List<FreelancerData> free = fr.findByName(register.getUsername());
 		if (free.size() == 0) {
-			Freelancer f = new Freelancer();
+			FreelancerData f = new FreelancerData();
 			f.setName(register.getName());
 			f.setAbout(register.getAbout());
 			f.setExperiencelevel(register.getExperiencelevel());

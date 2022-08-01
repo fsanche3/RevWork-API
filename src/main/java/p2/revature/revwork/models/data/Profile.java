@@ -19,7 +19,7 @@ public class Profile {
 	private int id;
 	@ManyToOne
 	@JoinColumn(name = "freelancerid")
-	private Freelancer freelancer;
+	private FreelancerData freelancer;
 	private String college;
 	private String name;
 	private String email;
@@ -28,7 +28,7 @@ public class Profile {
 		super();
 	}
 
-	public Profile(int id, Freelancer freelancer, String college, String name, String email) {
+	public Profile(int id, FreelancerData freelancer, String college, String name, String email) {
 		super();
 		this.id = id;
 		this.freelancer = freelancer;
@@ -37,7 +37,7 @@ public class Profile {
 		this.email = email;
 	}
 
-	public Profile(Freelancer freelancer, String college, String name, String email) {
+	public Profile(FreelancerData freelancer, String college, String name, String email) {
 		super();
 		this.freelancer = freelancer;
 		this.college = college;
@@ -61,11 +61,11 @@ public class Profile {
 		this.id = id;
 	}
 
-	public Freelancer getFreelancer() {
+	public FreelancerData getFreelancer() {
 		return freelancer;
 	}
 
-	public void setFreelancer(Freelancer freelancer) {
+	public void setFreelancer(FreelancerData freelancer) {
 		this.freelancer = freelancer;
 	}
 
