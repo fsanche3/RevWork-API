@@ -8,12 +8,18 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import p2.revature.revwork.models.data.OpenJobs;
+import p2.revature.revwork.models.data.Employer;
+
+import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revworkboot.api.JobApi;
 import p2.revature.revworkboot.models.Availablejob;
@@ -23,12 +29,14 @@ import p2.revature.revworkboot.models.Availablejob;
 public class JobController implements JobApi {
 
 	private OpenJobsService oj;
+	private EmployerService es;
 
-	public JobController(OpenJobsService oj) {
+	public JobController(OpenJobsService oj, EmployerService es) {
 		this.oj = oj;
+		this.es = es;
 	}
 
-	
+	//works
 	@Override
 	@GetMapping
 	public ResponseEntity<List<Availablejob>> jobGet() {
@@ -47,13 +55,15 @@ public class JobController implements JobApi {
 		return ResponseEntity.ok(aj);
 	}
 	
-	/*
-	@GetMapping
+	// employerID is null
+	@GetMapping(path = "/{id}")
 	public ResponseEntity<List<Availablejob>> jobGetById(@Valid Availablejob body) {
-		List<OpenJobs> open = oj.findById(body);
+		List<OpenJobs> open = oj.findById(body.getId());
 		List<Availablejob> aj = new ArrayList<>();
 		for (OpenJobs o : open) {
 			Availablejob a = new Availablejob();
+			a.setId(o.getId());
+			a.setEmployerid(o.getEmployer());
 			a.setName(o.getName());
 			a.setDescription(o.getDescription());
 			a.setSkills(o.getSkills());
@@ -62,18 +72,28 @@ public class JobController implements JobApi {
 		}
 		return ResponseEntity.ok(aj);
 	}
-	*/
+
+	@PostMapping
+	public ResponseEntity<Availablejob> postJob(@RequestBody Availablejob openJob) {
+		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
+		oj.addJob(open);
+		return ResponseEntity.status(HttpStatus.CREATED).body(openJob);
+	}
 
 	@Override
-	@PostMapping
 	public ResponseEntity<Void> jobPost(@Valid Availablejob body) {
-		Availablejob success = oj.addJob(body);
-
-		if (success != null) {
-			return ResponseEntity.status(HttpStatus.CREATED).build();
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
+	@DeleteMapping
+	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob){
+		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
+		oj.deleteJob(open);
+		return ResponseEntity.status(HttpStatus.GONE).body(openJob);		
+	}
+
+
 }
+
 

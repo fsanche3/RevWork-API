@@ -145,27 +145,6 @@ components:
                 skills: string
                 description: string
                 payrate: double
-        portfolio:
-            title: Root Type for portfolio
-            description: ''
-            type: object
-            properties:
-                id:
-                    type: string
-                name:
-                    type: string
-                email:
-                    type: string
-                skills:
-                    type: string
-                college:
-                    type: string
-            example:
-                id: integer
-                name: string
-                email: string
-                skills: string
-                college: string
         application:
             title: Root Type for application
             description: ''
@@ -237,7 +216,7 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 name:
                     type: string
                 email:
@@ -252,6 +231,58 @@ components:
                 email: string
                 username: string
                 password: string
+        freelancer:
+            title: Root Type for freelancer
+            description: ''
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                about:
+                    type: string
+                experiencelevel:
+                    type: string
+                email:
+                    type: string
+                username:
+                    type: string
+                password:
+                    type: string
+            example:
+                id: integer
+                name: string
+                about: string
+                experiencelevel: string
+                email: string
+                username: string
+                password: string
+        portfolio:
+            title: Root Type for portfolio
+            description: ''
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                email:
+                    type: string
+                skills:
+                    type: string
+                college:
+                    type: string
+                freelancerid:
+                    $ref: '#/components/schemas/freelancer'
+                    description: ''
+            example:
+                id: integer
+                freelancerid: integer
+                name: string
+                email: string
+                skills: string
+                college: string
     securitySchemes:
         revwork_security_schema:
             scheme: bearer

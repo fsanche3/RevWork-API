@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import p2.revature.revwork.models.data.Employer;
 
 @Entity
 @Table(name="openjobs")
@@ -18,7 +20,6 @@ public class OpenJobs {
 	private int id;
 	@ManyToOne
 	@JoinColumn(name = "employerid")
-	@GeneratedValue(strategy = GenerationType.AUTO) // specifies that the db generates this value
 	private Employer employer;
 	private String name;
 	private String description;
@@ -26,15 +27,6 @@ public class OpenJobs {
 	private String payrate;
 
 	public OpenJobs() {}
-	
-	public OpenJobs(String name, String description, String skills, String payrate) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.skills = skills;
-		this.payrate = payrate;
-	}
-
 	
 	public OpenJobs(Employer employer, String name, String description, String skills, String payrate) {
 		super();

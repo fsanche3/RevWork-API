@@ -18,7 +18,8 @@ public class Employer {
 	private String username;
 	private String password;
 
-	public Employer() {}
+	public Employer() {
+	}
 	
 
 	public Employer(int id, String name, String email, String username, String password) {
@@ -84,3 +85,4 @@ public class Employer {
 
 	
 }
+

@@ -1,45 +1,62 @@
 package p2.revature.revwork.services;
 
-
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import p2.revature.revwork.data.EmployerRepository;
 import p2.revature.revwork.data.OpenJobRepository;
 import p2.revature.revwork.models.data.OpenJobs;
+import p2.revature.revwork.models.data.Profile;
 import p2.revature.revworkboot.models.Availablejob;
 
 @Service
 public class OpenJobsService {
 
-	
 	private OpenJobRepository oj;
+	private EmployerRepository er;
 
-	public OpenJobsService(OpenJobRepository oj) {
+	public OpenJobsService(OpenJobRepository oj, EmployerRepository er) {
 		this.oj = oj;
+		this.er = er;
 	}
-	
-	// This works expect for employerid stays null in the db
-	public Availablejob addJob(Availablejob openJob) {
-		// the employer ID isnt auto generating (producing null in the db) and
-		// I honestly dont know if its a problem
-		// Get employerID should actually be getEmployer( ) in the AvaliableJob API i think
-		// Ill try this later 
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
-		oj.save(open);
-		return openJob;
-	}
-	
-	
+
 	// this works
 	public List<OpenJobs> getAllJobs() {
 		return oj.findAll();
 	}
-	
-	/*
-	public List<OpenJobs> findById(Availablejob aj) {
+
+	public List<OpenJobs> findById(int integer) {
 		// get id
-		return oj.findById(aj);
+		return oj.findById(integer);
 	}
-*/
+
+	public OpenJobs addJob(OpenJobs open) {
+		open.setId(0);
+		oj.save(open);
+		if (open.getId() != 0) {
+			return open;
+		}
+		return null;
+	}
+
+	public OpenJobs deleteJob(OpenJobs open) {
+		if (open == null) {
+			return null;
+		} else {
+			oj.deleteById(open.getId());
+			return open;
+
+		}
+	}
+	
+	public OpenJobs editJob(OpenJobs open) {
+		if (oj.existsById(open.getId())) {
+			oj.save(open);
+			return open;
+		} else {
+			return null;
+		}
+	}
+
 }
 
