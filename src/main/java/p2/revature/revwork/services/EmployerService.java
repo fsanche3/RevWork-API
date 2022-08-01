@@ -55,7 +55,7 @@ public class EmployerService {
 		// Get employerID should actually be getEmployer( ) in the AvaliableJob API i think
 		// Ill try this later 
 		//OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(),openJob.getSkills(), openJob.getPayrate());
+		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(),openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
 		oj.save(open);
 		return openJob;
 	}

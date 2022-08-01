@@ -75,7 +75,7 @@ public class JobController implements JobApi {
 
 	@PostMapping
 	public ResponseEntity<Availablejob> postJob(@RequestBody Availablejob openJob) {
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
+		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
 		oj.addJob(open);
 		return ResponseEntity.status(HttpStatus.CREATED).body(openJob);
 	}
@@ -88,7 +88,7 @@ public class JobController implements JobApi {
 	
 	@DeleteMapping
 	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob){
-		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate());
+		OpenJobs open = new OpenJobs(openJob.getEmployerid(),openJob.getName(), openJob.getDescription(), openJob.getSkills(), openJob.getPayrate(), openJob.isIstaken());
 		oj.deleteJob(open);
 		return ResponseEntity.status(HttpStatus.GONE).body(openJob);		
 	}

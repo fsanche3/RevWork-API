@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import p2.revature.revwork.models.data.Application;
 import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revwork.models.data.Profile;
+import p2.revature.revwork.services.ApplicationService;
 import p2.revature.revwork.services.FreelancerService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revwork.services.ProfileService;
@@ -34,15 +36,17 @@ public class FreelancerController implements RegisterApi {
 	private FreelancerService fs;
 	private ProfileService p;
 	private OpenJobsService ojs;
+	private ApplicationService aps;
 
 	// did = Create Profile + Delete profile + edit profile + getJobs + getJobsbyID + Register
 	// Need to do = Login/Logout + Create Application + add ProfileSkill stuff with API
 	// Create profile from the generated skills table
 
-	public FreelancerController(FreelancerService fs ,ProfileService p, OpenJobsService ojs) {
+	public FreelancerController(FreelancerService fs ,ProfileService p, OpenJobsService ojs, ApplicationService aps) {
 		this.fs = fs;
 		this.p = p;
 		this.ojs = ojs;
+		this.aps = aps;
 	}
 	
 	@GetMapping(path="/get_jobs")
@@ -124,6 +128,16 @@ public class FreelancerController implements RegisterApi {
 		return ResponseEntity.status(HttpStatus.OK).body(aj);
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(aj);
+		}
+	}
+	
+	@PostMapping(path = "/submit_app")
+	public ResponseEntity<Application> submitApplication(@RequestBody Application app) {
+		Application a = new Application(app.getId(), app.getOpenJob(), app.getProfile(), app.getCoverletter(), app.getName()); 
+		if(aps.addApplication(a) != null) {
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(a);
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
 	}
 }

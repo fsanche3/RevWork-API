@@ -9,6 +9,9 @@ import p2.revature.revwork.models.data.Employer;
 
 @Repository
 public interface EmployerRepository extends JpaRepository<Employer, Integer> {
+	
 	public List<Employer> findByName(String username);
+	
+
 
 }

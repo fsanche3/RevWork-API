@@ -25,19 +25,21 @@ public class OpenJobs {
 	private String description;
 	private String skills;
 	private String payrate;
+	private boolean istaken;
 
 	public OpenJobs() {}
 	
-	public OpenJobs(Employer employer, String name, String description, String skills, String payrate) {
+	public OpenJobs(Employer employer, String name, String description, String skills, String payrate, boolean istaken) {
 		super();
 		this.employer = employer;
 		this.name = name;
 		this.description = description;
 		this.skills = skills;
 		this.payrate = payrate;
+		this.istaken = istaken;
 	}
 
-	public OpenJobs(int id, Employer employer, String name, String description, String skills, String payrate) {
+	public OpenJobs(int id, Employer employer, String name, String description, String skills, String payrate, boolean istaken) {
 		super();
 		this.id = id;
 		this.employer = employer;
@@ -45,6 +47,16 @@ public class OpenJobs {
 		this.description = description;
 		this.skills = skills;
 		this.payrate = payrate;
+		this.istaken = istaken;
+	}
+
+	
+	public boolean isIstaken() {
+		return istaken;
+	}
+
+	public void setIstaken(boolean istaken) {
+		this.istaken = istaken;
 	}
 
 	public int getId() {
@@ -86,11 +98,7 @@ public class OpenJobs {
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
-	@Override
-	public String toString() {
-		return "OpenJobs [id=" + id + ", employer=" + employer + ", name=" + name + ", description=" + description
-				+ ", skills=" + skills + ", payrate=" + payrate + "]";
-	}
+	
 	public String getPayrate() {
 		return payrate;
 	}
@@ -98,6 +106,10 @@ public class OpenJobs {
 		this.payrate = payrate;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "OpenJobs [id=" + id + ", employer=" + employer + ", name=" + name + ", description=" + description
+				+ ", skills=" + skills + ", payrate=" + payrate + ", istaken=" + istaken + "]";
+	}
 
 }
