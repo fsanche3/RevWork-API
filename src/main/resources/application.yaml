@@ -20,7 +20,7 @@ paths:
                                 type: string
                             examples:
                                 Login Token Example:
-                                    value: xxx.yyyy.zzzz
+                                    value: xxx.yyyy.zzzz              
                     description: The login was a sucess.
     /job:
         get:
