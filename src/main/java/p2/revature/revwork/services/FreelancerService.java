@@ -23,8 +23,26 @@ public class FreelancerService {
 		return fr.findAll();
 	}
 	
-	public boolean verifyLogin(Usernameandpassword login) {
-		return true;
+	/**
+	 * Try to see if there  
+	 * 
+	 * @param login
+	 * @return r
+	 */
+	public FreelancerData verifyLogin(Usernameandpassword login) {
+		List<FreelancerData> free = fr.findByUsername(login.getUsername());
+		if (free.size() == 0) {
+			return null;
+		} else {
+			FreelancerData freelancer = free.get(0);
+			
+			if ( freelancer.getPassword().equals(login.getPassword()) ) {
+				return freelancer;
+			}
+			else {
+				return null;
+			}
+		}
 	}
 	
 	public boolean verifyRigistration(Freelancerregister register) {

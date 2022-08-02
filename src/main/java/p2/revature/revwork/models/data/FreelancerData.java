@@ -116,8 +116,8 @@ public class FreelancerData {
 	}
 	@Override
 	public String toString() {
-		return "Freelancer [id=" + id + ", name=" + name + ", about=" + about + ", experiencelevel=" + experiencelevel
-				+ ", email=" + email + ", username=" + username + ", password=" + password + "]";
+		return "FreelancerData [id=" + id + ", name=" + name + ", about=" + about + ", experiencelevel="
+				+ experiencelevel + ", email=" + email + ", username=" + username + ", password=" + password + "]";
 	}
 
 	
