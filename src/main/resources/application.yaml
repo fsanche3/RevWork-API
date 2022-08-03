@@ -14,13 +14,6 @@ paths:
                 required: true
             responses:
                 '200':
-                    content:
-                        application/json:
-                            schema:
-                                type: string
-                            examples:
-                                Login Token Example:
-                                    value: xxx.yyyy.zzzz              
                     description: The login was a sucess.
     /job:
         get:
@@ -44,7 +37,6 @@ paths:
             responses:
                 '200':
                     description: The job was posted successfully.
-            summary: Enter a job to the list
     /apply:
         put:
             requestBody:
@@ -76,11 +68,10 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/employerregister'
-                required: true
+                required: false
             responses:
                 '200':
                     description: Employer has been registered.
-            summary: Registering as an employer
     /register/freelancer:
         post:
             requestBody:
@@ -89,11 +80,10 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/freelancerregister'
-                required: true
+                required: false
             responses:
                 '200':
                     description: Freelancer has been registered.
-            summary: Registering as a freelancer
     /select-application:
         post:
             requestBody:
@@ -133,33 +123,37 @@ components:
             description: A job the employer is trying to find a freelancer to complete.
             type: object
             properties:
-                id:
-                    type: integer
-                employerid:
-                    $ref: '#/components/schemas/employer'
-                name:
+                title:
                     type: string
                 skills:
                     type: string
-                description:
+                jobdescription:
                     type: string
                 payrate:
                     type: string
-                istaken:
-                    description: |-
-                        True if a job has a freelancer
-                        False if a job is stil available
-                    type: boolean
-            example: |-
-                {
-                    "id": "integer",
-                    "employerid": "employer",
-                    "name": "string",
-                    "skills": "string",
-                    "description": "string",
-                    "payrate": "double"
-                    "istaken" : boolean
-                }
+            example:
+                title: string
+                skills: string
+                jobdescription: string
+                payrate: double
+        portfolio:
+            title: Root Type for portfolio
+            description: ''
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                skills:
+                    type: string
+            example:
+                id: integer
+                name: string
+                email: string
+                skills: string
         application:
             title: Root Type for application
             description: ''
@@ -178,126 +172,46 @@ components:
         employerregister:
             title: Root Type for employerregister
             description: ''
-            required:
-                - companyname
-                - email
             type: object
-            properties:
-                name:
-                    type: string
-                email:
-                    type: string
-                username:
-                    type: string
-                password:
-                    type: string
+            allOf:
+                -
+                    required:
+                        - companyname
+                        - email
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        companyname:
+                            type: string
+                -
+                    $ref: '#/components/schemas/usernameandpassword'
             example:
-                name: string
                 email: string
-                username: string
-                password: string
+                companyname: string
         freelancerregister:
             title: Root Type for freelancerregister
             description: ''
-            required:
-                - email
-                - name
             type: object
-            properties:
-                name:
-                    type: string
-                about:
-                    type: string
-                experiencelevel:
-                    type: string
-                email:
-                    type: string
-                username:
-                    type: string
-                password:
-                    type: string
-            example: |-
-                {
-                    "name": "string",
-                    "about": "string"
-                    "experiencelevel": "string",
-                    "email": "string",
-                    "username":"string",
-                    "password": "string"
-                }
-        employer:
-            title: Root Type for employer
-            description: ''
-            type: object
-            properties:
-                id:
-                    type: string
-                name:
-                    type: string
-                email:
-                    type: string
-                username:
-                    type: string
-                password:
-                    type: string
+            allOf:
+                -
+                    required:
+                        - email
+                        - name
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        name:
+                            type: string
+                        skill:
+                            type: string
+                -
+                    $ref: '#/components/schemas/usernameandpassword'
             example:
-                id: integer
-                name: string
                 email: string
-                username: string
-                password: string
-        freelancer:
-            title: Root Type for freelancer
-            description: ''
-            type: object
-            properties:
-                id:
-                    type: integer
-                name:
-                    type: string
-                about:
-                    type: string
-                experiencelevel:
-                    type: string
-                email:
-                    type: string
-                username:
-                    type: string
-                password:
-                    type: string
-            example:
-                id: integer
                 name: string
-                about: string
-                experiencelevel: string
-                email: string
-                username: string
-                password: string
-        portfolio:
-            title: Root Type for portfolio
-            description: ''
-            type: object
-            properties:
-                id:
-                    type: integer
-                name:
-                    type: string
-                email:
-                    type: string
-                skills:
-                    type: string
-                college:
-                    type: string
-                freelancerid:
-                    $ref: '#/components/schemas/freelancer'
-                    description: ''
-            example:
-                id: integer
-                freelancerid: integer
-                name: string
-                email: string
-                skills: string
-                college: string
+                skill: string
     securitySchemes:
         revwork_security_schema:
             scheme: bearer
