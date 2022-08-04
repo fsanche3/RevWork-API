@@ -50,36 +50,15 @@ public class EmployerController implements RegisterApi {
 	}
 
 	@GetMapping(path = "/get_jobs")
-	public ResponseEntity<List<Availablejob>> jobGet() {
+	public ResponseEntity<List<OpenJobs>> jobGet() {
 		List<OpenJobs> open = ojs.getAllJobs();
-		List<Availablejob> aj = new ArrayList<>();
-		for (OpenJobs o : open) {
-			Availablejob a = new Availablejob();
-			a.setId(o.getId());
-			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
-			a.setName(o.getName());
-			a.setDescription(o.getDescription());
-			a.setSkills(o.getSkills());
-			a.setPayrate(o.getPayrate());
-			aj.add(a);
-		}
-		return ResponseEntity.ok(aj);
+		return ResponseEntity.ok(open);
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<List<Availablejob>> jobGetById(@PathVariable Integer id) {
+	public ResponseEntity<OpenJobs> jobGetById(@PathVariable Integer id) {
 		OpenJobs open = ojs.findById(id);
-		List<Availablejob> aj = new ArrayList<>();
-		Availablejob a = new Availablejob();
-		a.setId(open.getId());
-		a.setEmployerid(EmployerData.toEmployer(open.getEmployer()));
-		a.setName(open.getName());
-		a.setDescription(open.getDescription());
-		a.setSkills(open.getSkills());
-		a.setPayrate(open.getPayrate());
-		aj.add(a);
-
-		return ResponseEntity.ok(aj);
+		return ResponseEntity.ok(open);
 	}
 
 	@GetMapping(path = "/get_applicants/{name}")

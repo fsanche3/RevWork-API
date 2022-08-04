@@ -22,6 +22,7 @@ import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revwork.models.data.Profile;
 import p2.revature.revwork.services.JobApplicationService;
+import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.FreelancerService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revwork.services.ProfileService;
@@ -40,48 +41,29 @@ public class FreelancerController implements RegisterApi {
 
 	private FreelancerService fs;
 	private ProfileService p;
+	private EmployerService es;
 	private OpenJobsService ojs;
 	private JobApplicationService aps;
 
 	public FreelancerController(FreelancerService fs, ProfileService p, OpenJobsService ojs,
-			JobApplicationService aps) {
+			JobApplicationService aps, EmployerService es) {
 		this.fs = fs;
 		this.p = p;
 		this.ojs = ojs;
 		this.aps = aps;
+		this.es = es;
 	}
 
 	@GetMapping(path = "/get_jobs")
-	public ResponseEntity<List<Availablejob>> jobGet() {
+	public ResponseEntity<List<OpenJobs>> jobGet() {
 		List<OpenJobs> open = ojs.getAllJobs();
-		List<Availablejob> aj = new ArrayList<>();
-		for (OpenJobs o : open) {
-			Availablejob a = new Availablejob();
-			a.setId(o.getId());
-			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
-			a.setName(o.getName());
-			a.setDescription(o.getDescription());
-			a.setSkills(o.getSkills());
-			a.setPayrate(o.getPayrate());
-			aj.add(a);
-		}
-		return ResponseEntity.ok(aj);
+		return ResponseEntity.ok(open);
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<List<Availablejob>> jobGetById(@PathVariable Integer id) {
+	public ResponseEntity<OpenJobs> jobGetById(@PathVariable Integer id) {
 		OpenJobs open = ojs.findById(id);
-		List<Availablejob> aj = new ArrayList<>();
-		Availablejob a = new Availablejob();
-		a.setId(open.getId());
-		a.setEmployerid(EmployerData.toEmployer(open.getEmployer()));
-		a.setName(open.getName());
-		a.setDescription(open.getDescription());
-		a.setSkills(open.getSkills());
-		a.setPayrate(open.getPayrate());
-		aj.add(a);
-
-		return ResponseEntity.ok(aj);
+		return ResponseEntity.ok(open);
 	}
 
 	@Override

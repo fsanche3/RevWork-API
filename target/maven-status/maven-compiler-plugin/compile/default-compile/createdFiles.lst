@@ -1,0 +1,13 @@
+p2\revature\revworkboot\api\SelectApplicationApi.class
+p2\revature\revworkboot\models\Employer.class
+p2\revature\revworkboot\models\Portfolio.class
+p2\revature\revworkboot\api\JobApi.class
+p2\revature\revworkboot\api\RegisterApi.class
+p2\revature\revworkboot\models\Employerregister.class
+p2\revature\revworkboot\models\Freelancerregister.class
+p2\revature\revworkboot\models\Application.class
+p2\revature\revworkboot\models\Freelancer.class
+p2\revature\revworkboot\api\LoginApi.class
+p2\revature\revworkboot\models\Usernameandpassword.class
+p2\revature\revworkboot\models\Availablejob.class
+p2\revature\revworkboot\api\ApplyApi.class
