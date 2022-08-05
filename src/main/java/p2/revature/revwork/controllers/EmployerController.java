@@ -38,10 +38,6 @@ public class EmployerController implements RegisterApi {
 	private JobApplicationService aps;
 	private JwtUtil jwt;
 
-	// Did = GetJobs + FindJobbyID+ AddJob + Delete Job + edit Job + Register
-	// Need to do = Login/Logout + Select Application + ID Validation with JWT for
-	// editing and deleting jobs
-
 	public EmployerController(EmployerService empServ, OpenJobsService ojs, JobApplicationService aps, JwtUtil jwt) {
 		this.ojs = ojs;
 		this.empServ = empServ;

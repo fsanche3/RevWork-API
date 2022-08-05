@@ -52,7 +52,6 @@ public class JobController implements JobApi {
 		return ResponseEntity.ok(aj);
 	}
 	
-	// employerID is null
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<List<Availablejob>> jobGetById(@Valid Availablejob body) {
 		OpenJobs open = oj.findById(body.getId());

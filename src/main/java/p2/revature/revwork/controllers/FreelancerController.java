@@ -84,8 +84,6 @@ public class FreelancerController implements RegisterApi {
 		}
 	}
 
-// Clean up API documentation get rid of unwated fields like skill
-
 	@PostMapping(path = "/create_profile")
 	public ResponseEntity<Portfolio> addJob(@RequestBody Portfolio aj,
 			@RequestHeader(value = "Authorization", required = true) String authorization) {
