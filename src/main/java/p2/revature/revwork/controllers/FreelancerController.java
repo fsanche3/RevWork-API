@@ -1,5 +1,6 @@
 package p2.revature.revwork.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,17 +42,17 @@ public class FreelancerController implements RegisterApi {
 
 	private FreelancerService fs;
 	private ProfileService p;
-	private EmployerService es;
+	private JwtUtil jwt;
 	private OpenJobsService ojs;
 	private JobApplicationService aps;
 
 	public FreelancerController(FreelancerService fs, ProfileService p, OpenJobsService ojs,
-			JobApplicationService aps, EmployerService es) {
+			JobApplicationService aps, JwtUtil jwt) {
 		this.fs = fs;
 		this.p = p;
 		this.ojs = ojs;
 		this.aps = aps;
-		this.es = es;
+		this.jwt = jwt;
 	}
 
 	@GetMapping(path = "/get_jobs")
@@ -86,9 +87,9 @@ public class FreelancerController implements RegisterApi {
 
 	@PostMapping(path = "/create_profile")
 	public ResponseEntity<Portfolio> addJob(@RequestBody Portfolio aj,
-			@RequestHeader(value = "Authorization", required = true) String authorization) {
+			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
 
-		int id = JwtUtil.getId(authorization);
+		int id = jwt.getId(authorization);
 
 		if (id == aj.getFreelancerid().getId()) {
 
@@ -104,8 +105,8 @@ public class FreelancerController implements RegisterApi {
 
 	@DeleteMapping(path = "/delete_profile")
 	public ResponseEntity<Portfolio> deleteProfile(@RequestBody Portfolio aj,
-			@RequestHeader(value = "Authorization", required = true) String authorization) {
-		int id = JwtUtil.getId(authorization);
+			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
+		int id = jwt.getId(authorization);
 
 		if (id == aj.getFreelancerid().getId()) {
 
@@ -124,8 +125,8 @@ public class FreelancerController implements RegisterApi {
 
 	@PutMapping(path = "/edit_profile")
 	public ResponseEntity<Portfolio> editProfile(@RequestBody Portfolio aj,
-			@RequestHeader(value = "Authorization", required = true) String authorization) {
-		int id = JwtUtil.getId(authorization);
+			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
+		int id = jwt.getId(authorization);
 
 		if (id == aj.getFreelancerid().getId()) {
 			Profile open = new Profile(aj.getId(), FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),

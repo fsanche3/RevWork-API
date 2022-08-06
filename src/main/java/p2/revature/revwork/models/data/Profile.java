@@ -30,6 +30,11 @@ public class Profile {
 	public Profile() {
 		super();
 	}
+	
+	public Profile(int id) {
+		super();
+		this.id = id;
+	}
 
 	public Profile(int id, FreelancerData freelancer, String college, String name, String email) {
 		super();

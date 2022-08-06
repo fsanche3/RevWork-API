@@ -24,29 +24,20 @@ public class JwtUtil {
     static {
     	jwtVerifier = null;
     }
-	
-   public static String pullFromHeader(String headerString) throws UnsupportedEncodingException {
-    	String[] arr = headerString.split("\\.");
-    	String payload = arr[1];
-    	String jsonString = new String(Base64.decodeBase64(payload), "UTF-8");
-    	return jsonString;
-    }
-   
-   public static int getId(String token) {
+	 
+   public int getId(String token) throws UnsupportedEncodingException {
 	   
 	   Integer id = null;
-	   
-		try {
-			String[] split = JwtUtil.pullFromHeader(token).split(",");
-			String stringId = split[3].substring(5);
-			 id = Integer.parseInt(stringId); 
+	   String arr[] = token.split("\\.");
+	   String payload = arr[1];
+   		String jsonString = new String(Base64.decodeBase64(payload), "UTF-8");
+   		String[] split = jsonString.split(",");
+   		String stringId = split[3].substring(5);
+		 id = Integer.parseInt(stringId); 
 
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return id;
+	   return id;
    }
+   
 	
     @Bean
     @Scope("prototype")

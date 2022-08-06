@@ -30,6 +30,11 @@ public class OpenJobs {
 
 	public OpenJobs() {}
 	
+	public OpenJobs(int id) {
+		super();
+		this.id = id;
+	}
+	
 	public OpenJobs(int id, EmployerData employer, String name, String description, String skills, String payrate) {
 		super();
 		this.id = id;
