@@ -31,6 +31,16 @@ public class JobApplication {
 	public JobApplication() {
 		super();
 	}
+	
+	public JobApplication(int id) {
+		super();
+		 this.id = id;
+	}
+	
+	public JobApplication(String name) {
+		super();
+		this.name = name;
+	}
 
 	public JobApplication(OpenJobs openJob, Profile profile, String coverletter, String name) {
 		super();

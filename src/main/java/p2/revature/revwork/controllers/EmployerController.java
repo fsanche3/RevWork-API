@@ -1,5 +1,6 @@
 package p2.revature.revwork.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class EmployerController implements RegisterApi {
 	@GetMapping(path = "/get_applicants/{name}")
 	public ResponseEntity<List<JobApplication>> getApplicantsByName(@PathVariable String name) {
 		List<JobApplication> list = aps.selectApplicants(name);
-		if (list.isEmpty()) {
+		if (list.get(0) == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} else {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
@@ -90,8 +91,8 @@ public class EmployerController implements RegisterApi {
 	}
 
 	@PostMapping(path = "/add_job")
-	public ResponseEntity<Availablejob> addJob(@RequestBody Availablejob aj, @RequestHeader(value = "Authorization", required = true) String authorization) {
-		int id = JwtUtil.getId(authorization);
+	public ResponseEntity<Availablejob> addJob(@RequestBody Availablejob aj, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
+		int id = jwt.getId(authorization);
 		
 		if(id == aj.getEmployerid().getId()) {
 		OpenJobs open = new OpenJobs(aj.getId(), empServ.findById(aj.getEmployerid().getId()), aj.getName(), aj.getDescription(), aj.getSkills(),
@@ -106,9 +107,9 @@ public class EmployerController implements RegisterApi {
 	}
 
 	@DeleteMapping(path = "/delete_job")
-	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob, @RequestHeader(value = "Authorization", required = true) String authorization) {
+	public ResponseEntity<Availablejob> deleteJob(@RequestBody Availablejob openJob, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
 		
-		int id = JwtUtil.getId(authorization);
+		int id = jwt.getId(authorization);
 
 		if(id == openJob.getEmployerid().getId()) {
 
@@ -123,9 +124,9 @@ public class EmployerController implements RegisterApi {
 	}
 
 	@PutMapping(path = "/edit_job")
-	public ResponseEntity<Availablejob> editJob(@RequestBody Availablejob aj, @RequestHeader(value = "Authorization", required = true) String authorization) {
+	public ResponseEntity<Availablejob> editJob(@RequestBody Availablejob aj, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
 		
-		int id = JwtUtil.getId(authorization);
+		int id = jwt.getId(authorization);
 
 		if(id == aj.getEmployerid().getId()) {
 
