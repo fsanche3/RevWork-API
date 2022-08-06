@@ -54,10 +54,9 @@ public class ProfileServiceTest {
 
 		Profile prof = new Profile(1);
 
-		Profile test = ps.deleteProfile(prof);
+		boolean test = ps.deleteProfile(prof);
 
-		Assertions.assertNotNull(test);
-		Assertions.assertEquals(test.getId(), prof.getId());
+		Assertions.assertTrue(test);
 	}
 
 

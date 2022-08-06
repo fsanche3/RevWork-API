@@ -110,9 +110,10 @@ public class FreelancerController implements RegisterApi {
 
 		if (id == aj.getFreelancerid().getId()) {
 
-			Profile open = new Profile(aj.getId(), FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),
+			Profile open = new Profile(aj.getId(), fs.findById(FreelancerData.fromFreelancer(aj.getFreelancerid()).getId()), aj.getCollege(),
 					aj.getName(), aj.getEmail());
-			if (p.deleteProfile(open) != null) {
+			boolean pass = p.deleteProfile(open);
+			if (pass == true && pass != false) {
 				return ResponseEntity.status(HttpStatus.GONE).body(aj);
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(aj);
@@ -120,7 +121,6 @@ public class FreelancerController implements RegisterApi {
 		} else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
-
 	}
 
 	@PutMapping(path = "/edit_profile")

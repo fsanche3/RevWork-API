@@ -25,9 +25,9 @@ public class ProfileService {
 		return null;
 	}
 
-	public Profile deleteProfile(Profile profile) {
+	public boolean deleteProfile(Profile profile) {
 		pr.deleteById(profile.getId());
-		return profile;
+		return true;
 	}
 
 	public Profile editProfile(Profile profile) {

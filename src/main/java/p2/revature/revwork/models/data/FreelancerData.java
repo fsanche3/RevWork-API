@@ -12,6 +12,32 @@ import p2.revature.revworkboot.models.Freelancer;
 @Table(name="freelancer")
 public class FreelancerData {
 	
+	
+	
+	
+	@Id // specifies that this field is the primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
+	private int id;
+	private String name;
+	private String about;
+	private String experiencelevel;
+	private String email;
+	private String username;
+	private String password;
+	
+	public FreelancerData() {}
+	public FreelancerData(int id) {super(); this.id = id;}
+	public FreelancerData(int id, String name, String about, String experiencelevel, String email, String username, String password) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.about = about;
+		this.experiencelevel = experiencelevel;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
+	
 	public static Freelancer toFreelancer(FreelancerData data) {
 		Freelancer free = new Freelancer();
 		
@@ -38,29 +64,6 @@ public class FreelancerData {
 		data.setUsername(free.getUsername());
 		
 		return data;
-	}
-	
-	
-	@Id // specifies that this field is the primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
-	private int id;
-	private String name;
-	private String about;
-	private String experiencelevel;
-	private String email;
-	private String username;
-	private String password;
-	
-	public FreelancerData() {}
-	public FreelancerData(int id, String name, String about, String experiencelevel, String email, String username, String password) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.about = about;
-		this.experiencelevel = experiencelevel;
-		this.email = email;
-		this.username = username;
-		this.password = password;
 	}
 
 	public int getId() {
