@@ -32,9 +32,9 @@ public class OpenJobsService {
 
 	public OpenJobs addJob(OpenJobs open) {
 		open.setId(0);
-		oj.save(open);
-		if (open.getId() != 0) {
-			return open;
+		OpenJobs open2 = oj.save(open);
+		if (open2.getId() != 0 ) {
+			return open2;
 		}
 		return null;
 	}
