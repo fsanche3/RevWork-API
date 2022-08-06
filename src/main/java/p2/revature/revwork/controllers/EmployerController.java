@@ -92,10 +92,19 @@ public class EmployerController implements RegisterApi {
 
 	@PostMapping(path = "/add_job")
 	public ResponseEntity<Availablejob> addJob(@RequestBody Availablejob aj, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
-		int id = jwt.getId(authorization);
+		
+		String[] arrOfStr = authorization.split(" ", 2);
+		
+		System.out.println("authorization string:" + arrOfStr[1]);
+		
+		String jwtToken = arrOfStr[1];
+		int id = jwt.getId(jwtToken);
+		
+		
+		System.out.println("decoded id: " + id + " sent in id: " + aj.getEmployerid().getId());
 		
 		if(id == aj.getEmployerid().getId()) {
-		OpenJobs open = new OpenJobs(aj.getId(), empServ.findById(aj.getEmployerid().getId()), aj.getName(), aj.getDescription(), aj.getSkills(),
+		OpenJobs open = new OpenJobs(-1, empServ.findById(aj.getEmployerid().getId()), aj.getName(), aj.getDescription(), aj.getSkills(),
 				aj.getPayrate());
 		ojs.addJob(open);
 		

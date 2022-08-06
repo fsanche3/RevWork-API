@@ -89,11 +89,20 @@ public class FreelancerController implements RegisterApi {
 	public ResponseEntity<Portfolio> addJob(@RequestBody Portfolio aj,
 			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
 
-		int id = jwt.getId(authorization);
+		
+		String[] arrOfStr = authorization.split(" ", 2);
+		
+		//System.out.println("authorization string:" + arrOfStr[1]);
+		
+		
+		int id = jwt.getId(arrOfStr[1]);
+		
+		System.out.println("========id from token:" + id + " id from json:" + aj.getFreelancerid().getId());
+		
 
 		if (id == aj.getFreelancerid().getId()) {
 
-			Profile open = new Profile(aj.getId(), FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),
+			Profile open = new Profile(-1, FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),
 					aj.getName(), aj.getEmail());
 			p.addProfile(open);
 
