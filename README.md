@@ -7,7 +7,7 @@
 
 ## Description
 
-With RevWork API Employers and Freelancers each have their own use cases.
+With RevWork API Employers and Freelancers(Secured with JWT tokens) each have their own use cases.
 #### Employers Are Able To
  - Register/Login
  - Post/View Jobs
@@ -19,7 +19,8 @@ With RevWork API Employers and Freelancers each have their own use cases.
  - View Profiles/Profile
  - Submit Applications to Jobs
  - View Jobs/Job
-
+### Test Overview
+Jacoco Test coverage for Controller/Service layers:
 ## API Documentation
 - [RevWork API Documentation](https://studio.apicur.io/preview?aid=75051)
 
