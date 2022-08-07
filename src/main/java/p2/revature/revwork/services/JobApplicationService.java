@@ -1,5 +1,6 @@
 package p2.revature.revwork.services;
 
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,6 +25,10 @@ public class JobApplicationService {
 		}
 		return null;
 	}
+	
+//	public List<JobApplication> findByJobId(int jobId) {
+//		return ar.findByJobId(jobId);
+//	}
 	
 	public List<JobApplication> selectApplicants(String name) {
 		List<JobApplication> apps = ar.findByName(name);

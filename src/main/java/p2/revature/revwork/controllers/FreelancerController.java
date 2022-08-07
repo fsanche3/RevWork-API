@@ -1,5 +1,6 @@
 package p2.revature.revwork.controllers;
 
+
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,6 @@ import p2.revature.revwork.services.ProfileService;
 import p2.revature.revwork.utils.JwtUtil;
 import p2.revature.revworkboot.api.RegisterApi;
 import p2.revature.revworkboot.models.Application;
-import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employerregister;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Portfolio;
@@ -120,8 +120,10 @@ public class FreelancerController implements RegisterApi {
 
 		
 		String[] arrOfStr = authorization.split(" ", 2);
+
 		int id = jwt.getId(arrOfStr[1]);
 		
+
 		if (id == aj.getFreelancerid().getId()) {
 
 			Profile open = new Profile(-1, FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),

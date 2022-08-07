@@ -1,5 +1,7 @@
 package p2.revature.revwork.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import p2.revature.revwork.data.ProfilesRepository;
@@ -41,4 +43,5 @@ public class ProfileService {
 	public Profile findById(int id) {
 		return pr.findById(id);
 	}
+
 }

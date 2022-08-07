@@ -288,5 +288,75 @@ public class FreelancerControllerTest {
 		
 	}
 	
+	@Test
+	public void getProfileById() throws JsonProcessingException, Exception {
+		
+		JobApplication app = new JobApplication(1);
+		Profile prof = new Profile(1);
+		OpenJobs job = new OpenJobs(1);
+		Portfolio port = new Portfolio();
+		port.setId(1);
+		app.setOpenJob(job);
+ 		Application app1 = new Application();
+ 		Availablejob aj = new Availablejob();
+ 		app1.setId(1);
+ 		aj.setId(1);
+ 		app1.setJobid(aj);
+ 		app1.setPortfolioid(port);
+ 		 List<Profile> list = new ArrayList<>();
+ 		 List<Portfolio> listP = new ArrayList<>();
+ 		 listP.add(port);
+ 		 list.add(prof);
+ 		 
+ 		
+ 		String value = om.writeValueAsString(listP);
+ 		
+		String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJmcmVlbGFuY2VyIl0sImlzcyI6ImF1dGgwIiwiZnVsbG5hbWUiOiJCZW4gTiBKZXJyeSdzIiwiaWQiOjEsInVzZXJuYW1lIjoiR3JhdGVmdWwgRnJlZWxhbmNlciJ9.ujGxNU4t7QNfJLmzyVROFTga-_WTgNVPGp-5g5qeI4w";
+				
+		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
+		Mockito.when(freeServ.getProilesById(Mockito.anyInt())).thenReturn(list);
+		
+		mockMvc.perform(get("/freelancer/1/profiles").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				.content(om.writeValueAsString(port)))
+		.andExpect(status().isOk())
+		.andExpect(content().json(value));
+
+	}
+	
+	@Test
+	public void doNotGetProfileById() throws JsonProcessingException, Exception {
+		
+		JobApplication app = new JobApplication(1);
+		Profile prof = new Profile(2);
+		OpenJobs job = new OpenJobs(1);
+		Portfolio port = new Portfolio();
+		port.setId(2);
+		app.setOpenJob(job);
+ 		Application app1 = new Application();
+ 		Availablejob aj = new Availablejob();
+ 		app1.setId(1);
+ 		aj.setId(1);
+ 		app1.setJobid(aj);
+ 		app1.setPortfolioid(port);
+ 		 List<Profile> list = new ArrayList<>();
+ 		 List<Portfolio> listP = new ArrayList<>();
+ 		 listP.add(port);
+ 		 list.add(prof);
+ 		 
+ 		
+ 		String value = om.writeValueAsString(listP);
+ 		
+		String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJmcmVlbGFuY2VyIl0sImlzcyI6ImF1dGgwIiwiZnVsbG5hbWUiOiJCZW4gTiBKZXJyeSdzIiwiaWQiOjEsInVzZXJuYW1lIjoiR3JhdGVmdWwgRnJlZWxhbmNlciJ9.ujGxNU4t7QNfJLmzyVROFTga-_WTgNVPGp-5g5qeI4w";
+				
+		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
+		Mockito.when(freeServ.getProilesById(Mockito.anyInt())).thenReturn(list);
+		
+		mockMvc.perform(get("/freelancer/2/profiles").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				.content(om.writeValueAsString(port)))
+		.andExpect(status().isForbidden());
+
+	}
 }
 

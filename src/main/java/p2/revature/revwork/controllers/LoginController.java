@@ -41,7 +41,6 @@ public class LoginController implements LoginApi {
 
 	@Override
 	@PostMapping()
-//	@CrossOrigin(origins = "http://127.0.0.1:5555/")
 	public ResponseEntity<String> loginPost(@Valid Usernameandpassword body) {
 
 		String username = body.getUsername();
