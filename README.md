@@ -7,11 +7,11 @@
 
 ## Description
 
-With RevWork API Employers and Freelancers each have their privalages and use cases.
+With RevWork API Employers and Freelancers each have their own use cases.
 #### Employers Are Able To
  - Register/Login
  - Post/View Jobs
- - Edit/Delete Jobs
+ - Delete Jobs
  - View Applicants/Applicant
  #### Freelancers Are Able To
  - Register/Login
@@ -21,10 +21,11 @@ With RevWork API Employers and Freelancers each have their privalages and use ca
  - View Jobs/Job
 
 ## API Documentation
+- [RevWork API Documentation](https://studio.apicur.io/preview?aid=75051)
 
 ## Front End
 
-- link 
+- [The User Interface that levarages this API ]() 
 
 ## Authors
 - [Michael B.](https://github.com/NewPagodi)
