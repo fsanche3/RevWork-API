@@ -22,7 +22,8 @@ With RevWork API Employers and Freelancers(Secured with JWT tokens) each have th
 ### Test Overview
 Jacoco Test coverage for Controller/Service layers:
 ## API Documentation
-- [RevWork API Documentation](https://studio.apicur.io/preview?aid=75051)
+- [Endpoint Documentation](https://studio.apicur.io/preview?aid=75051)
+- [Javadoc Documentation](https://newpagodi.github.io/p2docs/)
 
 ## Front End
 
