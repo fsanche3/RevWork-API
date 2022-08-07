@@ -15,7 +15,7 @@ With RevWork API Employers and Freelancers(Secured with JWT tokens) each have th
  - View Applicants/Applicant
  #### Freelancers Are Able To
  - Register/Login
- - Create/Edit/Delete Profiles
+ - Create/Edit Profiles
  - View Profiles/Profile
  - Submit Applications to Jobs
  - View Jobs/Job
