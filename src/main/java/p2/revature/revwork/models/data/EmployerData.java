@@ -1,9 +1,13 @@
 package p2.revature.revwork.models.data;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import p2.revature.revworkboot.models.Employer;
@@ -21,6 +25,10 @@ public class EmployerData {
 	private String email;
 	private String username;
 	private String password;
+	
+	@OneToMany
+	@JoinColumn(name="employerid")
+	private List<OpenJobs> jobs;
 
 	public EmployerData() {
 	}
@@ -108,6 +116,10 @@ public class EmployerData {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public List<OpenJobs> getJobs() {
+		return jobs;
 	}
 
 

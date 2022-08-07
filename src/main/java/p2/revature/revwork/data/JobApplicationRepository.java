@@ -12,4 +12,6 @@ public interface JobApplicationRepository extends JpaRepository<JobApplication, 
 	public List<JobApplication> findByName(String name);
 	
 	public JobApplication findById(int id);
+	
+	
 }

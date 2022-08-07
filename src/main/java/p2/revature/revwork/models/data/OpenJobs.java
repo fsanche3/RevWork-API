@@ -1,11 +1,14 @@
 package p2.revature.revwork.models.data;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import p2.revature.revworkboot.models.Availablejob;
@@ -27,6 +30,10 @@ public class OpenJobs {
 	private String description;
 	private String skills;
 	private String payrate;
+	
+	@OneToMany
+	@JoinColumn(name="jobid")
+	private List<JobApplication> applications;
 
 	public OpenJobs() {}
 	
@@ -103,6 +110,10 @@ public class OpenJobs {
 	}
 	public void setPayrate(String payrate) {
 		this.payrate = payrate;
+	}
+	
+	public List<JobApplication> getApplications() {
+		return applications;
 	}
 
 	@Override

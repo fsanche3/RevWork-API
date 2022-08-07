@@ -1,11 +1,14 @@
 package p2.revature.revwork.services;
 
+import java.util.LinkedList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import p2.revature.revwork.data.EmployerRepository;
 import p2.revature.revwork.data.OpenJobRepository;
 import p2.revature.revwork.models.data.EmployerData;
+import p2.revature.revwork.models.data.JobApplication;
 import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employer;
@@ -91,5 +94,17 @@ public class EmployerService {
 		}
 
 	}
+	
+	public List<JobApplication> getApplications(int jobId) {
+		OpenJobs job = oj.findById(jobId);
+		
+		if ( job != null ) {
+			return job.getApplications();
+		}
+		else {
+			return new LinkedList<JobApplication>();
+		}
+	}
+	
 }
 

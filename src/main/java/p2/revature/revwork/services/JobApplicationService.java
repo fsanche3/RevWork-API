@@ -25,6 +25,10 @@ public class JobApplicationService {
 		return null;
 	}
 	
+//	public List<JobApplication> findByJobId(int jobId) {
+//		return ar.findByJobId(jobId);
+//	}
+	
 	public List<JobApplication> selectApplicants(String name) {
 		List<JobApplication> apps = ar.findByName(name);
 		if(apps.get(0) == null) {
