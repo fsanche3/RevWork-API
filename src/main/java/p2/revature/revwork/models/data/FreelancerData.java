@@ -1,9 +1,14 @@
 package p2.revature.revwork.models.data;
 
+
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import p2.revature.revworkboot.models.Freelancer;
@@ -11,9 +16,6 @@ import p2.revature.revworkboot.models.Freelancer;
 @Entity
 @Table(name="freelancer")
 public class FreelancerData {
-	
-	
-	
 	
 	@Id // specifies that this field is the primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // specifies that the db generates this value
@@ -24,6 +26,11 @@ public class FreelancerData {
 	private String email;
 	private String username;
 	private String password;
+	
+	@OneToMany
+	@JoinColumn(name="freelancerid")
+	private List<Profile> profiles;
+
 	
 	public FreelancerData() {}
 	public FreelancerData(int id) {super(); this.id = id;}
@@ -117,6 +124,11 @@ public class FreelancerData {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
+	
 	@Override
 	public String toString() {
 		return "FreelancerData [id=" + id + ", name=" + name + ", about=" + about + ", experiencelevel="

@@ -1,9 +1,10 @@
 package p2.revature.revwork.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import p2.revature.revwork.data.ProfilesRepository;
-import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revwork.models.data.Profile;
 
 @Service
@@ -42,5 +43,4 @@ public class ProfileService {
 	public Profile findById(int id) {
 		return pr.findById(id);
 	}
-
 }

@@ -1,7 +1,7 @@
 package p2.revature.revwork.controllers;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,23 +18,20 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.FreelancerData;
+import p2.revature.revwork.models.data.JobApplication;
 import p2.revature.revwork.models.data.OpenJobs;
 import p2.revature.revwork.models.data.Profile;
-import p2.revature.revwork.services.JobApplicationService;
-import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.FreelancerService;
+import p2.revature.revwork.services.JobApplicationService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revwork.services.ProfileService;
 import p2.revature.revwork.utils.JwtUtil;
 import p2.revature.revworkboot.api.RegisterApi;
 import p2.revature.revworkboot.models.Application;
-import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employerregister;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Portfolio;
-import p2.revature.revwork.models.data.JobApplication;
 
 @RestController
 @RequestMapping(path = "/freelancer")
@@ -85,6 +82,37 @@ public class FreelancerController implements RegisterApi {
 		}
 	}
 
+	@GetMapping(path = "/{id}/profiles")
+	public ResponseEntity<List<Portfolio>> getProfiles(@PathVariable Integer id, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
+		String[] arrOfStr = authorization.split(" ", 2);
+		
+		int tokenId = jwt.getId(arrOfStr[1]);
+		
+		if ( id == tokenId ) {
+			
+			List<Profile> plist = fs.getProilesById(id);
+			List<Portfolio> newList = new LinkedList<>();
+			
+	        for (Profile prof : plist) {
+	            Portfolio port = new Portfolio();
+	            
+	            port.setCollege(prof.getCollege());
+	            port.setEmail(prof.getEmail());
+	            port.setId(prof.getId());
+	            port.setName(prof.getName());
+	            
+	            newList.add(port);
+	        }
+			
+			return ResponseEntity.status(HttpStatus.OK).body(newList);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+		
+	}
+	
+	
 	@PostMapping(path = "/create_profile")
 	public ResponseEntity<Portfolio> addJob(@RequestBody Portfolio aj,
 			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
@@ -97,7 +125,7 @@ public class FreelancerController implements RegisterApi {
 		
 		int id = jwt.getId(arrOfStr[1]);
 		
-		System.out.println("========id from token:" + id + " id from json:" + aj.getFreelancerid().getId());
+		//System.out.println("========id from token:" + id + " id from json:" + aj.getFreelancerid().getId());
 		
 
 		if (id == aj.getFreelancerid().getId()) {

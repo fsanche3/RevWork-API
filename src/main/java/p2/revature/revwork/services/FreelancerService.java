@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import p2.revature.revwork.data.FreelancerRepository;
-import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.FreelancerData;
+import p2.revature.revwork.models.data.Profile;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Usernameandpassword;
 
@@ -64,6 +64,9 @@ public class FreelancerService {
 		return fr.findById(id);
 	}
 	
+	public List<Profile> getProilesById(int id) {
+		return findById(id).getProfiles();
+	}
 	
 
 }
