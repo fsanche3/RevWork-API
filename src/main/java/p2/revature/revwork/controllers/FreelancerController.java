@@ -29,6 +29,7 @@ import p2.revature.revwork.services.ProfileService;
 import p2.revature.revwork.utils.JwtUtil;
 import p2.revature.revworkboot.api.RegisterApi;
 import p2.revature.revworkboot.models.Application;
+import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employerregister;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Portfolio;
@@ -178,15 +179,43 @@ public class FreelancerController implements RegisterApi {
 	}
 
 	@PostMapping(path = "/submit_app")
-	public ResponseEntity<JobApplication> submitApplication(@RequestBody Application app) {
-
-		JobApplication a = new JobApplication(app.getId(), ojs.findById(OpenJobs.fromJob(app.getJobid()).getId()),
-				p.findById(Profile.fromPortfolio(app.getPortfolioid()).getId()), app.getCoverletter(), app.getName());
-		if (aps.addApplication(a) != null) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(a);
-		} else {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+	public ResponseEntity<Void> submitApplication(@RequestBody Application app, 
+				@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
+		
+		String[] arrOfStr = authorization.split(" ", 2);
+		int id = jwt.getId(arrOfStr[1]);
+		
+		
+		
+		int profId = app.getPortfolioid().getId();
+		
+		//Profile prof = new Profile();
+		
+		Profile prof = p.findById(profId);
+		
+		//System.out.println("if from prof:" + prof.getFreelancer().getId() + " id from token:" + id);
+		
+		
+		//if ( prof.getFreelancer().)
+		
+		//prof.setId(profId);
+		
+		int jobId = app.getJobid().getId();
+		
+		OpenJobs job = new OpenJobs();
+		job.setId(jobId);
+		
+		JobApplication a = new JobApplication(-1, job, prof, app.getCoverletter(), app.getName());
+		
+		if ( prof.getFreelancer().getId() == id ) {
+			if (aps.addApplication(a) != null) {
+				return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+			} else {
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			}
 		}
-
+		else {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
 	}
 }
