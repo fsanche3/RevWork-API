@@ -44,7 +44,7 @@ public class EmployerData {
 		
 		
 		emp.setEmail(data.getEmail());
-		emp.setId(emp.getId());
+		emp.setId(data.getId());
 		emp.setName(data.getName());
 		emp.setPassword(data.getPassword());
 		emp.setUsername(data.getUsername());

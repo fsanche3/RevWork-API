@@ -119,15 +119,8 @@ public class FreelancerController implements RegisterApi {
 
 		
 		String[] arrOfStr = authorization.split(" ", 2);
-		
-		//System.out.println("authorization string:" + arrOfStr[1]);
-		
-		
 		int id = jwt.getId(arrOfStr[1]);
 		
-		//System.out.println("========id from token:" + id + " id from json:" + aj.getFreelancerid().getId());
-		
-
 		if (id == aj.getFreelancerid().getId()) {
 
 			Profile open = new Profile(-1, FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),
@@ -141,9 +134,13 @@ public class FreelancerController implements RegisterApi {
 	}
 
 	@DeleteMapping(path = "/delete_profile")
-	public ResponseEntity<Portfolio> deleteProfile(@RequestBody Portfolio aj,
+	public ResponseEntity<Void> deleteProfile(@RequestBody Portfolio aj,
 			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
-		int id = jwt.getId(authorization);
+		
+		
+		//int id = jwt.getId(authorization);
+		String[] arrOfStr = authorization.split(" ", 2);
+		int id = jwt.getId(arrOfStr[1]);
 
 		if (id == aj.getFreelancerid().getId()) {
 
@@ -151,19 +148,21 @@ public class FreelancerController implements RegisterApi {
 					aj.getName(), aj.getEmail());
 			boolean pass = p.deleteProfile(open);
 			if (pass == true && pass != false) {
-				return ResponseEntity.status(HttpStatus.GONE).body(aj);
+				return ResponseEntity.status(HttpStatus.GONE).build();
 			} else {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(aj);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 	}
 
 	@PutMapping(path = "/edit_profile")
 	public ResponseEntity<Portfolio> editProfile(@RequestBody Portfolio aj,
 			@RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
-		int id = jwt.getId(authorization);
+		//int id = jwt.getId(authorization);
+		String[] arrOfStr = authorization.split(" ", 2);
+		int id = jwt.getId(arrOfStr[1]);
 
 		if (id == aj.getFreelancerid().getId()) {
 			Profile open = new Profile(aj.getId(), FreelancerData.fromFreelancer(aj.getFreelancerid()), aj.getCollege(),
