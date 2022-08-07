@@ -1,6 +1,5 @@
 package p2.revature.revwork.models.data;
 
-
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -30,7 +29,6 @@ public class FreelancerData {
 	@OneToMany
 	@JoinColumn(name="freelancerid")
 	private List<Profile> profiles;
-
 	
 	public FreelancerData() {}
 	public FreelancerData(int id) {super(); this.id = id;}

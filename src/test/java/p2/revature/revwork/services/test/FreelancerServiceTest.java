@@ -14,6 +14,7 @@ import p2.revature.revwork.RevWorkBootApplication;
 import p2.revature.revwork.data.FreelancerRepository;
 import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.FreelancerData;
+import p2.revature.revwork.models.data.Profile;
 import p2.revature.revwork.services.FreelancerService;
 import p2.revature.revworkboot.models.Freelancer;
 import p2.revature.revworkboot.models.Freelancerregister;
@@ -112,5 +113,17 @@ public class FreelancerServiceTest {
 		Assertions.assertNotNull(test);
 		Assertions.assertFalse(test);
 	}
+	
+	@Test
+	public void findById() {
+		int id = 1;
+		FreelancerData fd = new FreelancerData(1);
+		
+		Mockito.when(fr.findById(id)).thenReturn(fd);
+		
+		Assertions.assertNotNull(fs.findById(id));
+		Assertions.assertEquals(id, fs.findById(id).getId());
+	}
+	
 	
 }

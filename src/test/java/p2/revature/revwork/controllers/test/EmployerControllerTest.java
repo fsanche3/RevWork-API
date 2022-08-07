@@ -174,6 +174,68 @@ public class EmployerControllerTest {
 	}
 	
 	@Test
+	public void getApplicants() throws Exception {
+		List<JobApplication> list = new ArrayList<>();
+		Availablejob aj = new Availablejob();
+		Employer emp = new Employer();
+		JobApplication app = new JobApplication(1);
+		OpenJobs job = new OpenJobs(1);
+		emp.setId(2);
+		aj.setId(2);
+		aj.setEmployerid(emp);
+		list.add(app);
+		String value = om.writeValueAsString(list);
+		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
+		
+		Mockito.when(jas.selectApplicants(Mockito.anyString())).thenReturn(list);
+		
+		mockMvc.perform(get("/employer/get_applicants/frankyln").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				.content("franklyn"))
+		.andExpect(status().isAccepted())
+		.andExpect(content().json(value));
+		
+	}
+	
+	@Test
+	public void doNotGetApplicants() throws Exception {
+		List<JobApplication> list = new ArrayList<>();
+		Availablejob aj = new Availablejob();
+		Employer emp = new Employer();
+		JobApplication app = new JobApplication(null);
+		emp.setId(2);
+		aj.setId(2);
+		aj.setEmployerid(emp);
+		list.add(app);
+		list.set(0, null);
+		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
+		
+		Mockito.when(jas.selectApplicants(Mockito.anyString())).thenReturn(list);
+		
+		mockMvc.perform(get("/employer/get_applicants/frankyln").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				.content("franklyn"))
+		.andExpect(status().isNotFound());
+		
+	}
+	
+	@Test
+	public void getApplicant() throws Exception {
+		JobApplication app = new JobApplication(1);
+		String value = om.writeValueAsString(app);
+		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
+
+		Mockito.when(jas.selectApplicant(Mockito.anyInt())).thenReturn(app);
+		
+		mockMvc.perform(get("/employer/applicant/1").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				)
+		.andExpect(status().isAccepted())
+		.andExpect(content().json(value));
+	}
+	
+	
+	@Test
 	public void deleteJob() throws JsonProcessingException, Exception {
 		Availablejob aj = new Availablejob();
 		Employer emp = new Employer();

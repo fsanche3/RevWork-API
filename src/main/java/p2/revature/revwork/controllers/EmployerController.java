@@ -208,7 +208,9 @@ public class EmployerController implements RegisterApi {
 		
 		String[] arrOfStr = authorization.split(" ", 2);
 		
+
 		//System.out.println("authorization string:" + arrOfStr[1]);
+
 		
 		String jwtToken = arrOfStr[1];
 		int id = jwt.getId(jwtToken);

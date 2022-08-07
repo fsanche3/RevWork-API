@@ -1,5 +1,5 @@
 package p2.revature.revwork.controllers;
-
+/*
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class JobController implements JobApi {
 
 	//works
 	@Override
-	@GetMapping
+	@GetMapping(path="/get_jobs")
 	public ResponseEntity<List<Availablejob>> jobGet() {
 		List<OpenJobs> open = oj.getAllJobs();
 		List<Availablejob> aj = new ArrayList<>();
@@ -90,3 +90,4 @@ public class JobController implements JobApi {
 
 
 }
+*/
