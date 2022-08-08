@@ -1,7 +1,7 @@
 # RevWork-API (Back-End)
 
 ## FlowChart
-
+![FlowChart](FlowChart.PNG)
 ## ER-Diagram
 ![ER-Diagram](ER-DiagramRevWork.PNG)
 
