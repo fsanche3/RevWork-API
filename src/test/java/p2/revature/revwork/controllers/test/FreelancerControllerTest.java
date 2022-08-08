@@ -258,36 +258,7 @@ public class FreelancerControllerTest {
 		.andExpect(status().isForbidden());
 		
 	}
-	
-	@Test
-	public void cannotAddApplication() throws JsonProcessingException, Exception {
-		JobApplication app = new JobApplication(1);
-		OpenJobs job = new OpenJobs(1);
-		Portfolio port = new Portfolio();
-		port.setId(1);
-		app.setOpenJob(job);
- 		Application app1 = new Application();
- 		Availablejob aj = new Availablejob();
- 		app1.setId(1);
- 		aj.setId(1);
- 		app1.setJobid(aj);
- 		app1.setPortfolioid(port);
- 		
- 		String value = om.writeValueAsString(app1);
-		String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJmcmVlbGFuY2VyIl0sImlzcyI6ImF1dGgwIiwiZnVsbG5hbWUiOiJCZW4gTiBKZXJyeSdzIiwiaWQiOjEsInVzZXJuYW1lIjoiR3JhdGVmdWwgRnJlZWxhbmNlciJ9.ujGxNU4t7QNfJLmzyVROFTga-_WTgNVPGp-5g5qeI4w";
-				
-		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
-		Mockito.when(ojs.findById(Mockito.anyInt())).thenReturn(job);
-		Mockito.when(jas.addApplication(app)).thenReturn(app);
 		
-		
-		mockMvc.perform(post("/freelancer/submit_app").contentType(MediaType.APPLICATION_JSON)
-				.header("Authorization",  token)
-				.content(om.writeValueAsString(app1)))
-		.andExpect(status().isConflict());
-		
-	}
-	
 	@Test
 	public void getProfileById() throws JsonProcessingException, Exception {
 		

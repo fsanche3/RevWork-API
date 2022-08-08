@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -24,15 +25,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import p2.revature.revwork.controllers.EmployerController;
 import p2.revature.revwork.models.data.EmployerData;
+import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revwork.models.data.JobApplication;
 import p2.revature.revwork.models.data.OpenJobs;
+import p2.revature.revwork.models.data.Profile;
 import p2.revature.revwork.services.EmployerService;
 import p2.revature.revwork.services.JobApplicationService;
 import p2.revature.revwork.services.OpenJobsService;
 import p2.revature.revwork.utils.JwtUtil;
+import p2.revature.revworkboot.models.Application;
 import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employer;
 import p2.revature.revworkboot.models.Employerregister;
+import p2.revature.revworkboot.models.Freelancer;
+import p2.revature.revworkboot.models.Portfolio;
 
 @WebMvcTest(controllers = EmployerController.class)
 public class EmployerControllerTest {
@@ -43,6 +49,9 @@ public class EmployerControllerTest {
 	
 	@MockBean
 	Employerregister er;
+	
+	@MockBean
+	private EmployerData eda;
 	
 	@MockBean
 	private OpenJobsService ojs;
@@ -61,16 +70,52 @@ public class EmployerControllerTest {
 	
 	@Test
 	public void getJobs() throws Exception {
-		List<OpenJobs> list = new ArrayList<>();	
-		list.add(new OpenJobs(1));
+		List<Availablejob> list = new ArrayList<>();
+		List<OpenJobs> oj = new ArrayList<>();
+		Availablejob aj = new Availablejob();
+		aj.setId(1);
+		Employer e = new Employer();
+		EmployerData ed = new EmployerData(1);
+		OpenJobs oj1 = new OpenJobs(1, ed, "", " ", "", "");
+		oj.add(oj1);
+		e.setId(1);
+		aj.setEmployerid(e);
 		String value = om.writeValueAsString(list);
+		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
 		
-		Mockito.when(ojs.getAllJobs()).thenReturn(list);
+		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
+		Mockito.when(es.findById(Mockito.anyInt())).thenReturn(ed);
+		Mockito.when(eda.getJobs()).thenReturn(oj);
 		
-		mockMvc.perform(get("/employer/get_jobs"))
+		mockMvc.perform(get("/employer/1/get_jobs").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				)
 		.andExpect(status().isOk())
 		.andExpect(content().json(value));
 	}
+	
+	@Test
+	public void forbidGetJobs() throws Exception {
+		List<Availablejob> list = new ArrayList<>();	
+		Availablejob aj = new Availablejob();
+		aj.setId(1);
+		Employer e = new Employer();
+		EmployerData ed = new EmployerData(2);
+		e.setId(2);
+		aj.setEmployerid(e);
+		String value = om.writeValueAsString(list);
+		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
+		
+		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
+		Mockito.when(es.findById(Mockito.anyInt())).thenReturn(ed);
+		
+		mockMvc.perform(get("/employer/2/get_jobs").contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization",  token)
+				)
+		.andExpect(status().isForbidden());
+		
+	}
+	
 	
 	@Test
 	public void getJobById() throws Exception {
@@ -175,26 +220,20 @@ public class EmployerControllerTest {
 	
 	@Test
 	public void getApplicants() throws Exception {
-		List<JobApplication> list = new ArrayList<>();
 		Availablejob aj = new Availablejob();
-		Employer emp = new Employer();
-		JobApplication app = new JobApplication(1);
-		OpenJobs job = new OpenJobs(1);
-		emp.setId(2);
-		aj.setId(2);
-		aj.setEmployerid(emp);
-		list.add(app);
-		String value = om.writeValueAsString(list);
+		Employer e = new Employer();
+		aj.setId(1);
+		e.setId(2);
+		aj.setEmployerid(e);
+		String value = om.writeValueAsString(aj);
 		String token = "Bearer " +"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJlbXBsb3llciJdLCJpc3MiOiJhdXRoMCIsImZ1bGxuYW1lIjoiQmVlJ3MgSG9uZXkiLCJpZCI6MSwidXNlcm5hbWUiOiJIb25leUluYyJ9.Yz7-bEYUfHPcBrwGPU-cJiZ2bvsLLJMOOunfcFFy1r4";		
 		
-		Mockito.when(jas.selectApplicants(Mockito.anyString())).thenReturn(list);
+		Mockito.when(jwt.getId(Mockito.anyString())).thenReturn(1);
 		
-		mockMvc.perform(get("/employer/get_applicants/frankyln").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/employer/get_applicants").contentType(MediaType.APPLICATION_JSON)
 				.header("Authorization",  token)
-				.content("franklyn"))
-		.andExpect(status().isAccepted())
-		.andExpect(content().json(value));
-		
+				.content(om.writeValueAsString(aj)))
+		.andExpect(status().isForbidden());		
 	}
 	
 	@Test

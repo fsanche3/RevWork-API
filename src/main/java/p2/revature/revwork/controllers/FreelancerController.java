@@ -76,11 +76,15 @@ public class FreelancerController implements RegisterApi {
 	public ResponseEntity<Void> registerFreelancerPost(@Valid Freelancerregister body) {
 		boolean success = fs.verifyRigistration(body);
 
+		
 		if (success) {
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
 		}
+	
+		
+		
 	}
 
 	@GetMapping(path = "/{id}/profiles")
@@ -187,20 +191,11 @@ public class FreelancerController implements RegisterApi {
 		String[] arrOfStr = authorization.split(" ", 2);
 		int id = jwt.getId(arrOfStr[1]);
 		
-		
-		
 		int profId = app.getPortfolioid().getId();
 		
-		//Profile prof = new Profile();
 		
 		Profile prof = p.findById(profId);
 		
-		//System.out.println("if from prof:" + prof.getFreelancer().getId() + " id from token:" + id);
-		
-		
-		//if ( prof.getFreelancer().)
-		
-		//prof.setId(profId);
 		
 		int jobId = app.getJobid().getId();
 		
@@ -209,15 +204,15 @@ public class FreelancerController implements RegisterApi {
 		
 		JobApplication a = new JobApplication(-1, job, prof, app.getCoverletter(), app.getName());
 		
-		if ( prof.getFreelancer().getId() == id ) {
-			if (aps.addApplication(a) != null) {
-				return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-			} else {
-				return ResponseEntity.status(HttpStatus.CONFLICT).build();
-			}
-		}
-		else {
+		if ( prof.getFreelancer().getId() != id ) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
+
+		if (aps.addApplication(a) != null) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+
 	}
 }
