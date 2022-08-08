@@ -2,6 +2,7 @@ package p2.revature.revwork.controllers;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revwork.models.data.JobApplication;
 import p2.revature.revwork.models.data.OpenJobs;
@@ -30,6 +32,7 @@ import p2.revature.revwork.services.ProfileService;
 import p2.revature.revwork.utils.JwtUtil;
 import p2.revature.revworkboot.api.RegisterApi;
 import p2.revature.revworkboot.models.Application;
+import p2.revature.revworkboot.models.Availablejob;
 import p2.revature.revworkboot.models.Employerregister;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Portfolio;
@@ -54,9 +57,23 @@ public class FreelancerController implements RegisterApi {
 	}
 
 	@GetMapping(path = "/get_jobs")
-	public ResponseEntity<List<OpenJobs>> jobGet() {
+	public ResponseEntity<List<Availablejob>> jobGet() {
+//		List<OpenJobs> open = ojs.getAllJobs();
+//		return ResponseEntity.ok(open);
+		
 		List<OpenJobs> open = ojs.getAllJobs();
-		return ResponseEntity.ok(open);
+		List<Availablejob> aj = new ArrayList<>();
+		for (OpenJobs o : open) {
+			Availablejob a = new Availablejob();
+			a.setId(o.getId());
+			a.setEmployerid(EmployerData.toEmployer(o.getEmployer()));
+			a.setName(o.getName());
+			a.setDescription(o.getDescription());
+			a.setSkills(o.getSkills());
+			a.setPayrate(o.getPayrate());			
+			aj.add(a);
+		}
+		return ResponseEntity.ok(aj);
 	}
 
 	@GetMapping(path = "/{id}")

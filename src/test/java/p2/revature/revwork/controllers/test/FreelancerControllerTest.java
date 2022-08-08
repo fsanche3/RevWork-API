@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import p2.revature.revwork.controllers.FreelancerController;
+import p2.revature.revwork.models.data.EmployerData;
 import p2.revature.revwork.models.data.FreelancerData;
 import p2.revature.revwork.models.data.JobApplication;
 import p2.revature.revwork.models.data.OpenJobs;
@@ -34,6 +34,7 @@ import p2.revature.revwork.services.ProfileService;
 import p2.revature.revwork.utils.JwtUtil;
 import p2.revature.revworkboot.models.Application;
 import p2.revature.revworkboot.models.Availablejob;
+import p2.revature.revworkboot.models.Employer;
 import p2.revature.revworkboot.models.Freelancer;
 import p2.revature.revworkboot.models.Freelancerregister;
 import p2.revature.revworkboot.models.Portfolio;
@@ -67,12 +68,31 @@ public class FreelancerControllerTest {
 	@Test
 	public void getJobs() throws Exception {
 		List<OpenJobs> list = new ArrayList<>();
-		list.add(new OpenJobs(1));
-		String value = om.writeValueAsString(list);
-
+		OpenJobs j1 = new OpenJobs(1);
+		j1.setDescription("");
+		EmployerData d = new EmployerData();
+		d.setId(1);
+		j1.setEmployer(d);
+		
+		list.add(j1);
+		
+		List<Availablejob> ajl = new ArrayList<>();
+		
+		Availablejob aj = new Availablejob();
+		aj.setId(1);
+		aj.setDescription("");
+		ajl.add(aj);
+		
+		Employer e = new Employer();
+		e.setId(1);
+		aj.setEmployerid(e);
+		String value = om.writeValueAsString(ajl);
+		
 		Mockito.when(ojs.getAllJobs()).thenReturn(list);
 
-		mockMvc.perform(get("/freelancer/get_jobs")).andExpect(status().isOk()).andExpect(content().json(value));
+		mockMvc.perform(get("/freelancer/get_jobs")).
+		andExpect(status().isOk()).
+		andExpect(content().json(value));
 	}
 
 	@Test
