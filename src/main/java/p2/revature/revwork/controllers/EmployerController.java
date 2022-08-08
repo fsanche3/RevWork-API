@@ -55,8 +55,6 @@ public class EmployerController implements RegisterApi {
 
 	@GetMapping(path = "/{id}/get_jobs")
 	public ResponseEntity<List<Availablejob>> jobGet(@PathVariable Integer id, @RequestHeader(value = "Authorization", required = true) String authorization) throws UnsupportedEncodingException {
-//		List<OpenJobs> open = ojs.getAllJobs();
-//		return ResponseEntity.ok(open);
 		
 		String[] arrOfStr = authorization.split(" ", 2);
 		
@@ -68,10 +66,9 @@ public class EmployerController implements RegisterApi {
 			Employer ejson = EmployerData.toEmployer(emp);
 			
 			List<OpenJobs> openJobs = emp.getJobs();
-			List<Availablejob> availjobs = new LinkedList<>();
+			List<Availablejob> availjobs = new LinkedList<>();	
 			
-		
-			
+		if(openJobs != null) {
 	        for (OpenJobs job : openJobs) {
 	        	Availablejob ajob = new Availablejob();
 	        	
@@ -85,9 +82,10 @@ public class EmployerController implements RegisterApi {
 	        	
 	            availjobs.add(ajob);
 	        }
-			
+		}
 			return ResponseEntity.status(HttpStatus.OK).body(availjobs);
 		}
+		
 		else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
@@ -113,10 +111,6 @@ public class EmployerController implements RegisterApi {
 		
 		int idFromJob = ajob.getEmployerid().getId();
 		
-		
-		//System.out.println("id from token:" + tokenId + "   id from job:" + idFromJob);
-		
-		
 	
 		if ( tokenId != idFromJob ) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -137,8 +131,6 @@ public class EmployerController implements RegisterApi {
 				jsapp.setId(app.getId());
 				
 				jsapp.setJobid(ajob);
-				
-				
 				
 				Profile prof = app.getProfile();
 				
